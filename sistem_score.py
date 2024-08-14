@@ -16,9 +16,6 @@ score_opponent = 0
 goal_line_own = 50
 goal_line_opponent = 590
 
-goal_cooldown = 50  # frames to wait before allowing another goal
-cooldown_counter = 0
-
 while True:
     # Capture frame-by-frame
     frame = vs.read()
