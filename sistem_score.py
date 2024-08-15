@@ -1,3 +1,4 @@
+from collections import deque
 from imutils.video import VideoStream
 import numpy as np
 import cv2
@@ -13,8 +14,11 @@ score_own = 0
 score_opponent = 0
 
 # Define Goal Areas using lines (X, Y)
-goal_line_own = 50
-goal_line_opponent = 590
+goal_line_own = 50  # Garis gawang kiri
+goal_line_opponent = 590  # Garis gawang kanan
+
+# Initialize deque to store ball's positions for drawing the trajectory
+trajectory = deque(maxlen=64)  # Save last 64 positions
 
 while True:
     # Capture frame-by-frame
@@ -56,21 +60,33 @@ while True:
             cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
+            # Add the center of the ball to the trajectory deque
+            trajectory.appendleft(center)
+
             # Check if the ball is in the own goal area (left side)
             if center[0] < goal_line_own:
                 score_opponent += 1
                 cv2.putText(frame, "GOAL! for Opponent", (200, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                cv2.waitKey(1000)  # Wait for a second
+                time.sleep(1)  # Pause for 1 second to give feedback about the goal
+                trajectory.clear()  # Clear the trajectory after a goal
 
             # Check if the ball is in the opponent's goal area (right side)
             elif center[0] > goal_line_opponent:
                 score_own += 1
                 cv2.putText(frame, "GOAL! for Own Team", (200, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                cv2.waitKey(1000)  # Wait for a second
+                time.sleep(1)  # Pause for 1 second to give feedback about the goal
+                trajectory.clear()  # Clear the trajectory after a goal
 
     # Draw goal lines
     cv2.line(frame, (goal_line_own, 0), (goal_line_own, 480), (255, 0, 0), 2)
     cv2.line(frame, (goal_line_opponent, 0), (goal_line_opponent, 480), (0, 255, 0), 2)
+
+    # Draw the trajectory
+    for i in range(1, len(trajectory)):
+        if trajectory[i - 1] is None or trajectory[i] is None:
+            continue
+        thickness = int(np.sqrt(len(trajectory) / float(i + 1)) * 2.5)
+        cv2.line(frame, trajectory[i - 1], trajectory[i], (0, 0, 255), thickness)
 
     # Update and show the score
     score_text = f"Own: {score_own} Opponent: {score_opponent}"
