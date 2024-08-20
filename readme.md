@@ -24,3 +24,6 @@ Feature 3 : Dahayu
 1. Sistem dapat mencatat jumlah tendangan ke gawang
 2. Sistem dapat menampilkan frekuensi gol
 3. Sistem dapat mendeteksi offside secara otomatis
+
+## Presentasi Slide
+https://www.canva.com/design/DAGOXLpQJRA/s49hevsmJ274TnmWblBLkg/edit?utm_content=DAGOXLpQJRA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
