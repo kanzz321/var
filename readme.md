@@ -9,6 +9,7 @@ Sistem ini dirancang untuk mendeteksi bola dan garis gawang dalam permainan sepa
     Secara otomatis menambahkan skor ketika melewati garis gawang 
 2. Penampilan Skor Secara Real-time
     Skor akan ditampilkan secara langsung di layar
+3. Melakukan rekaman ulang dengan slowmo
 
 ## Metode yang digunakan
     Proyek ini menggunakan metode color detection untuk mendeteksi objek bola
